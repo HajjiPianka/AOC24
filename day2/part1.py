@@ -14,4 +14,13 @@ for row in data:
     elif sorted(row, reverse=True) == row:
         partSafe.append(row)
 
+#check difference between elements
+def smallDifference(row: list) -> bool:
+    '''check if step between values is between 1 and 3'''
 
+    #compare value with the next one
+    for i in range(len(row)-1):
+        diff = abs(row[i] - row[i]) #absolute value in case of increasing 
+        if diff == 0 or diff > 3:
+            return False
+    return True
