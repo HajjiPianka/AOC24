@@ -32,4 +32,5 @@ for valueL in left:
     score = valueL * count
     #add to total score
     totalScore += score
+print(totalScore)
     
