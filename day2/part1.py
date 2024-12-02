@@ -21,6 +21,14 @@ def smallDifference(row: list) -> bool:
     #compare value with the next one
     for i in range(len(row)-1):
         diff = abs(row[i] - row[i]) #absolute value in case of increasing 
-        if diff == 0 or diff > 3:
+        if diff == 0 or diff > 3: #if slope too high or values equal
             return False
     return True
+
+#count safe rows
+safeRows = []
+for row in partSafe:
+    if smallDifference(row):
+        safeRows.append(row)
+
+print(len(safeRows))
