@@ -17,8 +17,17 @@ for row in data:
     right.append(int(row[1]))
 
 #sort arrays in ascending order
-print(left)
-
 left.sort()
-print('----------')
-print(left)
+right.sort()
+
+#calculate and sum differences between coresponding values
+differenceSum = 0
+for i in range(len(left)):
+    # get absolute value if left is smaller than right 
+    difference = abs(left[i] - right[i])
+
+    #add to sum
+    differenceSum += difference
+
+#get the answer
+print(differenceSum)
