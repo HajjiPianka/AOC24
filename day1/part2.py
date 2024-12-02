@@ -20,3 +20,16 @@ for row in data:
 left.sort()
 right.sort()
 
+totalScore = 0
+#calculate similarity score for each value in left array
+for valueL in left:
+    #count apperances of left value in right array
+    count = 0
+    for valueR in right:
+        if valueL == valueR:
+            count += 1
+    #calculate score for this value
+    score = valueL * count
+    #add to total score
+    totalScore += score
+    
