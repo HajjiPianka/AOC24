@@ -20,7 +20,7 @@ def smallDifference(row: list) -> bool:
 
     #compare value with the next one
     for i in range(len(row)-1):
-        diff = abs(row[i] - row[i]) #absolute value in case of increasing 
+        diff = abs(int(row[i]) - int(row[i+1])) #absolute value in case of increasing 
         if diff == 0 or diff > 3: #if slope too high or values equal
             return False
     return True
