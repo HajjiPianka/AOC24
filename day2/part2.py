@@ -5,6 +5,14 @@ file.close()
 
 unsafeRows = []
 partSafe = []
+def isAlmostSorted(row: list) -> bool:
+    '''check if row is sorted with ONE exception'''
+    for removedLevelIndex in range(len(row)):
+        newRow = row[:removedLevelIndex] + row[removedLevelIndex + 1:]
+        if sorted(newRow) == newRow or sorted(newRow, reverse=True) == newRow:
+            return True
+    return False
+
 #remove rows that aren't all increasing or all decreasing
 for row in data:
     row = list(map(int, row.strip().split()))
@@ -14,7 +22,7 @@ for row in data:
     #check if all decreasing
     elif sorted(row, reverse=True) == row:
         partSafe.append(row)
-    else:
+    elif isAlmostSorted(row):
         unsafeRows.append(row)
 
 def smallDifferenceWithOutOneLevel(row: list) -> bool:
@@ -53,8 +61,8 @@ for row in partSafe:
         unsafeRows.append(row)
 
 #check bad rows if can be fixed
-# for row in unsafeRows:
-#     if smallDifferenceWithOutOneLevel(row):
-#         safeRows.append(row)
+for row in unsafeRows:
+    if smallDifferenceWithOutOneLevel(row):
+        safeRows.append(row)
 
 print(len(safeRows))
