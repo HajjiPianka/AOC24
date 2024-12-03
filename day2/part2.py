@@ -23,12 +23,14 @@ def smallDifferenceWithOutOneLevel(row: list) -> bool:
 #check difference between elements
 def smallDifference(row: list) -> bool:
     '''check if step between values is between 1 and 3'''
-
+    invalid = False
     #compare value with the next one
     for i in range(len(row)-1):
         diff = abs(row[i] - row[i+1]) #absolute value in case of increasing 
         if diff == 0 or diff > 3: #if slope too high or values equal
-            return False
+            invalid = True
+    if invalid: # test if modifying row changes the result
+        return smallDifferenceWithOutOneLevel(row)
     return True
 
 #count safe rows
