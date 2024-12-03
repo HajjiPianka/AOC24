@@ -14,6 +14,12 @@ for row in data:
     elif sorted(row, reverse=True) == row:
         partSafe.append(row)
 
+def smallDifferenceWithOutOneLevel(row: list) -> bool:
+    '''check if removing a single level fixes the row'''
+    for removedLevelIndex in range(len(row)): # remove a single level
+        newRow = row[:removedLevelIndex] + [removedLevelIndex + 1]
+
+
 #check difference between elements
 def smallDifference(row: list) -> bool:
     '''check if step between values is between 1 and 3'''
