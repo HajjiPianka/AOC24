@@ -6,7 +6,7 @@ file.close()
 partSafe = []
 #remove rows that aren't all increasing or all decreasing
 for row in data:
-    row = row.strip().split(' ')
+    row = list(map(int, row.strip().split()))
     #check if all increases
     if sorted(row) == row:
         partSafe.append(row)
@@ -20,7 +20,7 @@ def smallDifference(row: list) -> bool:
 
     #compare value with the next one
     for i in range(len(row)-1):
-        diff = abs(int(row[i]) - int(row[i+1])) #absolute value in case of increasing 
+        diff = abs(row[i] - row[i+1]) #absolute value in case of increasing 
         if diff == 0 or diff > 3: #if slope too high or values equal
             return False
     return True
