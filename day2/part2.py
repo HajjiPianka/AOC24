@@ -16,11 +16,8 @@ def isAlmostSorted(row: list) -> bool:
 #remove rows that aren't all increasing or all decreasing
 for row in data:
     row = list(map(int, row.strip().split()))
-    #check if all increases
-    if sorted(row) == row:
-        partSafe.append(row)
-    #check if all decreasing
-    elif sorted(row, reverse=True) == row:
+    #check if all increases or decreases
+    if sorted(row) == row or sorted(row, reverse=True) == row:
         partSafe.append(row)
     elif isAlmostSorted(row):
         unsafeRows.append(row)
@@ -29,13 +26,13 @@ def smallDifferenceWithOutOneLevel(row: list) -> bool:
     '''check if removing a single level fixes the row'''
     for removedLevelIndex in range(len(row)): # remove a single level
         newRow = row[:removedLevelIndex] + row[removedLevelIndex + 1:]
-        fixed = True # row is valid until its finds error
+        valid = True # row is valid until its finds error
         for i in range(len(newRow)-1):
             diff = abs(newRow[i] - newRow[i+1]) #absolute value in case of increasing 
-            if diff == 0 or diff > 3: # second wrong slope
-                fixed = False # hasn't helped
+            if diff < 1 or diff > 3: # second wrong slope
+                valid = False # hasn't helped
                 break
-        if fixed: #it worked
+        if valid: #it worked
             return True
     return False #still wrong
         
@@ -48,7 +45,6 @@ def smallDifference(row: list) -> bool:
     for i in range(len(row)-1):
         diff = abs(row[i] - row[i+1]) #absolute value in case of increasing 
         if diff == 0 or diff > 3: #if slope too high or values equal
-            unsafeRows.append(row)
             return False
     return True
 
