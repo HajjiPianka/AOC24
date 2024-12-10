@@ -15,3 +15,11 @@ for line in data:
     levels = [int(num.strip()) for num in line.split()]
     if check_row(levels):
         safe += 1
+    else:
+        for i in range(len(levels)): #check if removing single item fixes row
+            levels2 = levels.copy()
+            levels2.pop(i)
+            if check_row(levels2):
+                safe += 1
+                break #no point in looking more
+print(safe)
