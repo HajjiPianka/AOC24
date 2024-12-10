@@ -8,3 +8,10 @@ def check_row(row):
     if (all(x < 0 and x in range(-3, 0) for x in diffs) or all(x > 0 and x in range(1, 4) for x in diffs)): # all differences in (1,3) or (-3,-1)
         return True
     return False
+
+safe = 0
+
+for line in data:
+    levels = [int(num.strip()) for num in line.split()]
+    if check_row(levels):
+        safe += 1
