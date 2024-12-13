@@ -3,7 +3,20 @@ data = file.readlines()
 file.close()
 
 answer = 0
+flag = 1 #enabled by default
+enabledInstructions = []
 for line in data:
+    doOrNot = line.strip().split("do")
+    for checkedLine in doOrNot:
+        if checkedLine.startswith('()'):
+            flag = 1
+        if checkedLine.startswith('n\'t()'):
+            flag = 0
+        
+        if flag:
+            enabledInstructions.append(checkedLine)
+
+for line in enabledInstructions:
     starts = line.strip().split('mul(')[1:] #beginnings of mul instructions, skip chars before first instruction
     for instruction in starts:
         instruction = instruction.split(')') #remove chars after instruction
