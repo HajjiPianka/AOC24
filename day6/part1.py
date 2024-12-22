@@ -2,20 +2,47 @@ file = open('data.txt','r')
 map = file.readlines()
 file.close()
 
-visitedCount = 0
+class Guard:
+    def __init__(self, posX, posY, facing):
+        self.posX = posX
+        self.posY = posY
+        self.facing = facing
+        self.isOnMap = True
+        self.visitedTiles = 0
+    def turnRight(self):
+        match self.facing:
+            case '^':
+                self.facing = '>'
+            case '>':
+                self.facing = 'v'
+            case 'v':
+                self.facing = '<'
+            case '<':
+                self.facing = '^'
+    def forward(self):
+        match self.facing:
+            case '^':
+                self.posY -= 1
+            case '>':
+                self.posX += 1
+            case 'v':
+                self.posY += 1
+            case '<':
+                self.posX -= 1
+    def newTile(self):
+        self.visitedTiles += 1
+
 x, y = 73, 94 #starting position
-hasGuardLeft = False
+guard = Guard(x, y, '^')
 
-moves = ['^', '>', 'v', '<']
-
-def isBlockadeAhead(currX, currY, facing):
-    checkX, checkY = currX, currY
+def isBlockadeAhead(guard: Guard):
+    checkX, checkY = guard.posX, guard.posY
     #where to look
-    if facing == '<':
+    if guard.facing == '<':
         checkX -= 1
-    elif facing == '>':
+    elif guard.facing == '>':
         checkX += 1
-    elif facing == 'v':
+    elif guard.facing == 'v':
         checkY += 1
     else:
         checkY -= 1
@@ -24,10 +51,11 @@ def isBlockadeAhead(currX, currY, facing):
         return True
     return False
 
-def isGuardGonnaLeave(posX, posY, facing):
+def isGuardGonnaLeave(guard: Guard):
     maxX = len(map[0]) - 1
     maxY = len(map) - 2 #empty row at the end of data file
-    match facing:
+    posX, posY = guard.posX, guard.posY
+    match guard.facing:
         case '^':
             posY -= 1
         case '>':
@@ -42,3 +70,10 @@ def isGuardGonnaLeave(posX, posY, facing):
         return True
     return False
 
+while (guard.isOnMap):
+    #is guard on a new tile
+    if map[y][x] == '.': #row then column
+        guard.newTile()
+        map[y][x] = 'X'
+    if isBlockadeAhead(guard):
+        ...
