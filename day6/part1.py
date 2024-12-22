@@ -1,6 +1,8 @@
 file = open('data.txt','r')
-map = file.readlines()
+# file = open('test.txt','r')
+data = file.readlines()
 file.close()
+map = [[j for j in i.strip()] for i in data]
 
 class Guard:
     def __init__(self, posX, posY, facing):
@@ -8,7 +10,7 @@ class Guard:
         self.posY = posY
         self.facing = facing
         self.isOnMap = True
-        self.visitedTiles = 0
+        self.visitedTiles = 1 #starting position is already checked
     def turnRight(self):
         match self.facing:
             case '^':
@@ -31,8 +33,12 @@ class Guard:
                 self.posX -= 1
     def newTile(self):
         self.visitedTiles += 1
-
+    def leave(self):
+        """upon leaving says number of visited tiles"""
+        self.isOnMap = False
+        return self.visitedTiles
 x, y = 73, 94 #starting position
+# x,y = 4,1
 guard = Guard(x, y, '^')
 
 def isBlockadeAhead(guard: Guard):
@@ -47,7 +53,7 @@ def isBlockadeAhead(guard: Guard):
     else:
         checkY -= 1
     
-    if map[checkX][checkY] == '#':
+    if map[checkY][checkX] == '#': #row then column
         return True
     return False
 
@@ -72,8 +78,11 @@ def isGuardGonnaLeave(guard: Guard):
 
 while (guard.isOnMap):
     #is guard on a new tile
-    if map[y][x] == '.': #row then column
+    if map[guard.posY][guard.posX] == '.': #row then column
         guard.newTile()
-        map[y][x] = 'X'
-    if isBlockadeAhead(guard):
-        ...
+        map[guard.posY][guard.posX] = 'X'
+    while isBlockadeAhead(guard): #can be a corner so multiple turns
+        guard.turnRight()
+    if isGuardGonnaLeave(guard):
+        print(guard.leave())
+    guard.forward()
